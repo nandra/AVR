@@ -89,7 +89,7 @@ uint8_t iqrf_get_data(uint8_t len)
 
 uint8_t iqrf_status(void)
 {
-	uint8_t stav;	
+	uint8_t status;	
 
 	status = spi_transcieve_byte(0x00);
 	
