@@ -8,7 +8,7 @@
 #define SPI_PORT_DDR 	DDRB
 
 /* SPI pins */
-#define SPI_SS   PD3
+#define SPI_SS   PD2
 #define SPI_SCK  PB7
 #define SPI_MOSI PB5
 #define SPI_MISO PB6
