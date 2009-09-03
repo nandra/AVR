@@ -37,20 +37,8 @@ UCSRB = (1 << RXEN) | (1 << TXEN) | (1 << RXCIE);
 //asynchronous 8N1
 UCSRC = (1 << URSEL) | (3 << UCSZ0);
 
-FILE uart_str = FDEV_SETUP_STREAM(uart_putchar, uart_getchar, _FDEV_SETUP_RW);
-stdout = stdin = &uart_str;
 
-#if 0
-DDRD = 0xFE;
-#if F_CPU < 2000000UL && defined(U2X)
-  UCSRA = _BV(U2X);          */   /* improve baud rate error by using 2x clk */
-  UBRRL = (F_CPU / (8UL * UART_BAUD)) - 1;
-#else
-  UBRRL = (F_CPU / (16UL * UART_BAUD)) - 1;
-#endif
-  UCSRB = _BV(TXEN) | _BV(RXEN); /* tx/rx enable */
-UCSRC = (1<<UCSZ1) | (UCSZ0); 
-#endif
+
 }
 
 /*
