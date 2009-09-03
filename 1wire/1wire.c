@@ -7,15 +7,16 @@
 /*                                                                      */
 /************************************************************************/
 #include "main.h"
-
+#include <util/delay.h>
 
 #ifndef W1_PIN
-#define W1_PIN	PD6
-#define W1_IN	PIND
-#define W1_OUT	PORTD
-#define W1_DDR	DDRD
+#define W1_PIN	PA0
+#define W1_IN	PINA
+#define W1_OUT	PORTA
+#define W1_DDR	DDRA
 #endif
 
+uint8_t buff[2];
 
 bit w1_reset(void)
 {
@@ -23,13 +24,13 @@ bit w1_reset(void)
 
   W1_OUT &= ~(1<<W1_PIN);
   W1_DDR |= 1<<W1_PIN;
-  DELAY( DELAY_US( 480 ));			// 480 us
+  _delay_us(480 );			// 480 us
   cli();
   W1_DDR &= ~(1<<W1_PIN);
-  DELAY( DELAY_US( 66 ));
+  _delay_us( 66 );
   err = W1_IN & (1<<W1_PIN);			// no presence detect
   sei();
-  DELAY( DELAY_US( 480 - 66 ));
+  _delay_us( 480 - 66 );
   if( (W1_IN & (1<<W1_PIN)) == 0 )		// short circuit
     err = 1;
   return err;
@@ -40,13 +41,13 @@ uchar w1_bit_io( bit b )
 {
   cli();
   W1_DDR |= 1<<W1_PIN;
-  DELAY( DELAY_US( 1 ));
+  _delay_us( 1 );
   if( b )
     W1_DDR &= ~(1<<W1_PIN);
-  DELAY( DELAY_US( 15 - 1 ));
+ _delay_us( 15 - 1 );
   if( (W1_IN & (1<<W1_PIN)) == 0 )
     b = 0;
-  DELAY( DELAY_US( 60 - 15 ));
+  _delay_us( 60 - 15 );
   W1_DDR &= ~(1<<W1_PIN);
   sei();
   return b;
