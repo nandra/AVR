@@ -11,30 +11,47 @@
 
 FILE uart_str = FDEV_SETUP_STREAM(uart_putchar, uart_getchar, _FDEV_SETUP_RW);
 
+void port_setup(void)
+{
+	PORTB |= _BV(SPI_SCK)|_BV(SPI_MOSI) | _BV(PB4);
+	
+	DDRB |= _BV(SPI_SCK)|_BV(SPI_MOSI) | _BV(PB4);
+	DDRB &= ~_BV(SPI_MISO);
+	/* PD2 is used for SS */
+	PORTD |= _BV(SPI_SS);
+        DDRD |= _BV(SPI_SS);
+}
+
 int main(void)
 {
 	int i = 0;
-
-	PORTB = 0xBF;
-        DDRB = 0xBF;
-        PORTD |= _BV(PD2);
-        DDRD |= _BV(PD2);
-
+	uint8_t stat;
+	char buf[10];
+	char i_buf[33];
+        port_setup();
 	uart_init();
+
 	stdout = stdin = &uart_str;
-	printf("test init\n");
+	
 	spi_init();
+	printf("IQRF v1.0 Press enter...\n");
 		
-	for(;;)
-	{
-		iqrf_status();
-		_delay_ms(100);
-
+	for(;;)	{
+	
+		if (fgets(buf, sizeof buf - 1, stdin) == NULL)
+        		break;
+		
+		iqrf_send_byte(buf[0]);
+	
 		if (fRxIQRF) {
-		for (i = 0; i < fRxIQRF; i++)
-			printf("rx_buff[%d]:%x\n", i, iqrfRx[i]);
-		}	
+			for (i = 0; i < fRxIQRF; i++) 
+				sprintf(&i_buf[i], "%c", iqrfRx[i]);
+		
+			i_buf[fRxIQRF] = '\0';
+			printf("%s\n", i_buf);
+			fRxIQRF = 0;
+		}
 	}
-
+	
 	return 0;
 }

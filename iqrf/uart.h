@@ -33,4 +33,3 @@ int	uart_putchar(char c, FILE *stream);
  * each invokation.
  */
 int	uart_getchar(FILE *stream);
-extern FILE uart_str;
