@@ -1,6 +1,6 @@
 #include "iqrf.h"
 #include <util/delay.h>
-
+#include <stdio.h>
 
 uint8_t iqrfTx[35], iqrfRx[35], crcm, ptype, i, temp;
 
@@ -90,8 +90,9 @@ uint8_t iqrf_get_data(uint8_t len)
 uint8_t iqrf_status(void)
 {
 	uint8_t status;	
-
+	
 	status = spi_transcieve_byte(0x00);
+	printf("stat=%x\n", status);
 	
 	switch (status) {
 	case 0x00:	/* SPI disabled SW */
