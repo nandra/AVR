@@ -8,14 +8,14 @@
 /************************************************************************/
 #ifndef _main_h_
 #define _main_h_
-#include <io.h>
-#include <interrupt.h>
-#include <signal.h>
+#include <avr/io.h>
+#include <avr/interrupt.h>
+//#include <avr/signal.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 //#define	XTAL		11059200L
-#define XTAL		5000000L
+#define XTAL	9216000L
 
 #define	BAUD	19200
 #define bauddivider (uint)(1.0 * XTAL / BAUD / 16 - 0.5)
@@ -28,10 +28,10 @@
 #define code
 
 
-#define W1_PIN	PD6
-#define W1_IN	PIND
-#define W1_OUT	PORTD
-#define W1_DDR	DDRD
+#define W1_PIN	PA0
+#define W1_IN	PINA
+#define W1_OUT	PORTA
+#define W1_DDR	DDRA
 
 #include "1wire.h"
 #include "delay.h"
