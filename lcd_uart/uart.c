@@ -24,7 +24,7 @@
  * Initialize the UART to 9600 Bd, tx/rx, 8N1.
  */
 
-#define UART_BAUD_RATE 9600
+#define UART_BAUD_RATE 19200
 #define UART_BAUD_CALC(UART_BAUD_RATE,F_CPU) ((F_CPU)/((UART_BAUD_RATE)*16l)-1)
 
 
